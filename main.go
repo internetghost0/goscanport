@@ -46,7 +46,7 @@ func main() {
                 openPorts = append(openPorts, port)
                 mu.Unlock()
             }
-            <- sem // like wg.Done() & can't be more count of threads than {threads} variable
+            <- sem // like wg.Done() & if `sem` have full capacity then wait for goroutines to finish
         }(port)
     }
 
