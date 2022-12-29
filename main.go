@@ -27,15 +27,15 @@ func main() {
     threads := 20
 
     openPorts := []int{}
-    locking := sync.Mutex{}
+    mu := sync.Mutex{}
     sem := make(chan bool, threads)
     for port := portStart; port <= portEnd; port++ {
         sem <- true
         go func(port int) {
             if isPortOpen(host, port) {
-                locking.Lock()
+                mu.Lock()
                 openPorts = append(openPorts, port)
-                locking.Unlock()
+                mu.Unlock()
             }
             <- sem
         }(port)
